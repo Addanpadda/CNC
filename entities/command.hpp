@@ -26,11 +26,13 @@ namespace gcode {
     class F : public Command {
     public:
         PRIRORITY prirority = PRIRORITY::FIRST;
+        double value;
     };
 
     class T : public Command {
     public:
         PRIRORITY prirority = PRIRORITY::FIRST;
+        short value;
     };
 }
 

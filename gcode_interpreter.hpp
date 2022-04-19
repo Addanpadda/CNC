@@ -13,7 +13,8 @@ protected:
 
     void executeLine(const std::string &line);
     std::string clearSpaces(const std::string &str);
-    std::vector<Command*> parseCommand(const std::string &line);
+    int findEndOfNumber(const std::string &str, const int &start);
+    std::vector<Command*> parseLine(const std::string &line);
 
 public:
     void openFile(const std::string &filename);
