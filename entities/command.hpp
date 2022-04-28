@@ -6,6 +6,7 @@
 #include "prirority.hpp"
 #include <string>
 
+// Ways of parsing, one parameter or cordinates as parameters
 enum PARSE_METHOD {
     DIRECT, CORDINATES
 };
@@ -20,7 +21,7 @@ namespace gcode {
     double directParse(const std::string &str, int &start);
     Cordinate cordinateParse(const std::string &str, int &start, Cordinate pos);
 
-    class G00 : public Command { // TODO: Implement
+    class G00 : public Command {
     public:
         PRIRORITY prirority = PRIRORITY::LAST;
         Cordinate pos;

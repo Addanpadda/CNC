@@ -15,25 +15,26 @@ void GcodeInterpreter::execute() {
     }
 }
 
+// Can be used to execute line by line with a row
 void GcodeInterpreter::executeLine(const std::string &line) {
     std::cout << "Executing: " << line << std::endl;
-    std::vector<Command*> cmd = parseLine(line);
+    Row row = parseLine(line);
     
 }
 
-std::vector<Command*> GcodeInterpreter::parseLine(const std::string &line) {
+// Parsing one line
+Row GcodeInterpreter::parseLine(const std::string &line) {
     std::string str = Utils::clearSpaces(line);
+    Row row;
     std::vector<Command*> cmds;
     int s = 0;
 
-    //e = str.find(" ");
-    //if (e == -1) e = str.length();
-
-
     while (s < str.length()) {
+        // Two kinds of commands, single and three character commands
         std::string gcmdstr = str.substr(s, 3);
         std::string scmdstr = str.substr(s, 1);
 
+        // Checking what command and parse it
         if (gcmdstr == "G00") {
             // Initiate the command and copy CNC current
             gcode::G00 *cmd = new gcode::G00();
@@ -49,6 +50,7 @@ std::vector<Command*> GcodeInterpreter::parseLine(const std::string &line) {
             std::cout << "[G01]" << "\tX: " << cmd->pos.x << "\tY: " << cmd->pos.y << "\tZ: " << cmd->pos.z << std::endl;
             cmds.push_back(cmd);
         } else if (scmdstr == "F") {
+            // Initiate the command and copy CNC current
             gcode::F *cmd = new gcode::F();
 
             cmd->value = gcode::directParse(str, s);
@@ -65,5 +67,6 @@ std::vector<Command*> GcodeInterpreter::parseLine(const std::string &line) {
         } else s++;
     }
 
-    return cmds;
+    row.cmds = cmds;
+    return row;
 }
